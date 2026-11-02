@@ -49,6 +49,12 @@ On real-world residential data, DCE-Forecast reduces upload volume by
 **66.7%–77.8%** while preserving or improving forecasting accuracy across
 multiple forecasting backbones (MLP, LSTM, CNN, DLinear, PatchTST).
 
+![DCE-Forecast framework](docs/figures/framework.png)
+
+*DCE-Forecast system framework: drift-aware cloud-edge communication, robust
+cloud-edge co-evolution, and hierarchical prediction-space fusion
+([PDF version](docs/figures/framework.pdf)).*
+
 ## Repository layout
 
 | Path            | Description |
@@ -57,7 +63,7 @@ multiple forecasting backbones (MLP, LSTM, CNN, DLinear, PatchTST).
 | [`hardware/`](hardware/README.md)     | The deployment-oriented sibling: a FastAPI cloud server and a Raspberry-Pi-ready client agent with the same co-adaptation logic, configs and systemd templates. |
 | [`pi_client/`](pi_client/README.md)   | Standalone Raspberry Pi reproduction package: five-client full-flow launcher, CPU-only setup script and bundled LSTM checkpoints. |
 | [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) | Equation-by-equation mapping from the paper to the code. |
-| [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) | Reproducing the paper's main cross-backbone results: exact commands, verified comparison table and gotchas. |
+| [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) | How to re-run the paper's main experiments: exact commands and gotchas. |
 | [`docs/HARDWARE_DEPLOYMENT.md`](docs/HARDWARE_DEPLOYMENT.md) | Parameter mapping, communication flow and step-by-step hardware deployment guide. |
 
 This release focuses on the **core algorithm and the deployment runtime**.
@@ -111,31 +117,49 @@ redistributed here. See [`simulation/scripts/prepare_bdg2_data.py`](simulation/s
 for a script that assembles the per-building CSVs from the official BDG2
 release ([github.com/buds-lab/the-building-data-genome-project-2](https://github.com/buds-lab/the-building-data-genome-project-2)).
 
-## Reproducing the paper's main results
+## Main results
 
-The paper's main cross-backbone table (MLP/CNN/LSTM/PatchTST, 18 Lamb clients,
-full 548-cycle online horizon) has been verified against this release:
+Results reported in the paper (24-hour-ahead online forecasting, 18 residential
+`Lamb_*` clients from BDG2, full online horizon). Each entry reports
+client-averaged **MAE / MSE / EPE**.
 
-- **LSTM** (flagship row) and **CNN**: reproduced **exactly**
-  (LSTM MAE 0.36341 vs 0.3634, MSE 0.70520 vs 0.7052, EPE 0.02911 vs 0.0291;
-  sync 182.67, upload 268.93 MB, download 44.90 MB).
-- **MLP**: within +1.6% MAE / +3.1% MSE (the paper row came from an older
-  code revision; a control run of the uncleaned codebase gives identical
-  numbers, and the result still beats all baselines).
-- **PatchTST**: reproduction with today's improved implementation is
-  *better* than the paper row (MAE 0.3406 vs 0.3929), with identical model
-  size and upload payload.
-- Communication structure (sync counts, payload bytes) matches **exactly**
-  for all four backbones.
+**Main results across forecasting backbones.**
 
-Full details, per-backbone commands and the verified comparison table:
-[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md). One-shot script:
-`simulation/scripts/run_paper_main_results.sh`; regenerate the table with
-`simulation/scripts/compare_with_paper.py`.
+| Method | MLP | CNN | LSTM | PatchTST |
+|--------|-----|-----|------|----------|
+| Edge Offline | 0.7829 / 1.5463 / 0.3752 | 0.6621 / 0.9272 / 0.4119 | 0.7703 / 1.3966 / 0.4592 | 0.6934 / 1.4502 / 0.3900 |
+| Edge Online | 0.4014 / 0.7854 / 0.0631 | 0.3159 / 0.5614 / 0.0207 | 0.3815 / 0.7306 / 0.0459 | 0.5168 / 0.9434 / 0.0775 |
+| Cloud Offline | 0.4849 / 0.8985 / 0.1126 | 0.6623 / 0.9072 / 0.3841 | 0.7478 / 1.2931 / 0.4471 | 0.6203 / 1.2129 / 0.2771 |
+| Cloud Online | 0.4172 / 0.8208 / 0.0769 | 0.3152 / 0.5858 / 0.0414 | 0.4164 / 0.7962 / 0.0742 | 0.4960 / 1.0477 / 0.0822 |
+| **DCE-Forecast** | **0.3693 / 0.6875 / 0.0519** | **0.3036 / 0.5479 / 0.0193** | **0.3634 / 0.7052 / 0.0291** | **0.3929 / 0.7808 / 0.0758** |
 
-> ⚠️ Two gotchas: pass `--max-steps 548` for full-horizon runs (the CLI
-> default of 72 is a demo cap), and load paper-era PatchTST checkpoints with
-> the legacy `--d-model 512 --d-ff 2048 --n-heads 8 --e-layers 2` config.
+DCE-Forecast attains the lowest MAE, MSE, and EPE for all four backbones. The
+gain arises from the framework design rather than from a particular predictor:
+coordinating the two streams through drift-aware communication and
+prediction-space fusion outperforms either stream alone.
+
+**Comparison with personalized and communication-efficient federated-learning
+baselines (LSTM).** Sync is the average synchronization count; upload and
+download are total traffic in MB.
+
+| Family | Method | MAE | MSE | EPE | Sync | Upload (MB) | Download (MB) |
+|--------|--------|-----|-----|-----|------|-------------|---------------|
+| Reference | FedAvg | 0.4164 | 0.7962 | 0.0742 | 548.0 | 806.79 | 806.79 |
+| Personalized FL | FedRep | 0.3763 | 0.7536 | 0.0376 | 548.0 | 804.34 | 804.34 |
+| | Ditto | 0.4017 | 0.7227 | 0.0396 | 548.0 | 806.79 | 806.79 |
+| Comm.-Eff. FL | DoCoFL | 0.3741 | **0.7004** | 0.0424 | 548.0 | 806.79 | 32.70 |
+| | QuAFL | 0.3709 | 0.7308 | 0.0459 | **182.7** | **159.78** | 159.78 |
+| Proposed | **DCE-Forecast** | **0.3634** | 0.7052 | **0.0291** | **182.7** | 268.93 | **44.90** |
+
+QuAFL is reported under a matched-efficiency configuration with the same
+average sync budget as DCE-Forecast; DoCoFL is reported under a
+matched-downlink configuration. Relative to the fixed-sync FedAvg reference,
+DCE-Forecast reduces the synchronization count from 548 to 182.7 and download
+traffic from 806.79 MB to 44.90 MB while improving MAE from 0.4164 to 0.3634.
+
+Experiment settings and one-shot scripts for re-running these tables:
+[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) and
+`simulation/scripts/run_paper_main_results.sh`.
 
 ## Quick start (hardware server + Pi client)
 
