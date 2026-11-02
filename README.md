@@ -183,5 +183,11 @@ five-client flow (FRP tunneling, systemd services, multi-Pi deployment).
 
 ## License
 
-[MIT](LICENSE). The bundled `Lamb_*` CSV streams are derived from the BDG2
-dataset (CC-BY 4.0, see above); please cite the BDG2 paper when using them.
+Code: [MIT](LICENSE). Portions derived from
+[Time-Series-Library](https://github.com/thuml/Time-Series-Library)
+(Copyright (c) 2021 THUML @ Tsinghua University, MIT) — see
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+Data: the bundled `Lamb_*` CSV streams are derived from the BDG2 dataset
+(CC-BY 4.0, Miller et al., *Scientific Data*, 2020); please cite the BDG2
+paper when using them (see the notices file for the full reference).
