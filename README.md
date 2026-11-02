@@ -112,7 +112,8 @@ The full 112-building dataset used in the paper is the **BDG2 dataset**
 (Miller et al., *Scientific Data*, 2020, CC-BY 4.0) and is **not**
 redistributed here. See [`simulation/scripts/prepare_bdg2_data.py`](simulation/scripts/prepare_bdg2_data.py)
 for a script that assembles the per-building CSVs from the official BDG2
-release ([github.com/buds-lab/the-building-data-genome-project-2](https://github.com/buds-lab/the-building-data-genome-project-2)).
+archive ([github.com/buds-lab/building-data-genome-project-2](https://github.com/buds-lab/building-data-genome-project-2),
+[doi:10.5281/zenodo.3887306](https://doi.org/10.5281/zenodo.3887306)).
 
 ## Main results
 
@@ -170,16 +171,6 @@ python main.py --config configs/config.client.reproduce.lstm.yaml
 
 See [`docs/HARDWARE_DEPLOYMENT.md`](docs/HARDWARE_DEPLOYMENT.md) for the full
 five-client flow (FRP tunneling, systemd services, multi-Pi deployment).
-
-## Citation
-
-```bibtex
-@article{dceforecast,
-  title   = {Non-Stationary Residential Load Forecasting: A Dynamic Cloud-Edge Collaboration Approach},
-  journal = {IEEE Transactions on Smart Grid},
-  year    = {2026}
-}
-```
 
 ## License
 
