@@ -1,0 +1,13 @@
+[Unit]
+Description=Online Federated Hardware Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/online_federated_hardware
+ExecStart=/opt/online_federated_hardware/.venv/bin/python -m server_app.main --config deployment/server/config.server.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

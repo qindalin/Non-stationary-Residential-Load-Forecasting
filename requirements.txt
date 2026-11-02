@@ -1,0 +1,9 @@
+# DCE-Forecast — common requirements for the in-process simulation.
+# For the hardware server see hardware/pyproject.toml,
+# for the Raspberry Pi client see pi_client/requirements.pi.txt.
+torch>=2.0
+numpy>=1.24
+pandas>=1.5
+scikit-learn>=1.2
+tqdm>=4.64
+matplotlib>=3.6

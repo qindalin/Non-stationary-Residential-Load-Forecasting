@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+runtime/
+logs/
+state/
+# artifacts/ holds the bundled initial LSTM state dicts used by the
+# full-flow configs; keep them tracked.

@@ -1,0 +1,24 @@
+# Example frpc (FRP client) configuration template.
+# Copy this file to frpc.toml and fill in YOUR OWN frp server address, port
+# and authentication token. Never commit the real token to a public repo.
+serverAddr = "your-frps-server.example.com"
+serverPort = 7000
+auth.method = "token"
+auth.token = "YOUR_FRP_TOKEN"
+
+# HTTPS reverse proxy to the local DCE-Forecast server (FastAPI, port 8010).
+[[proxies]]
+name = "dce-forecast-web"
+type = "http"
+localIP = "127.0.0.1"
+localPort = 8010
+subdomain = "your-subdomain"
+
+# Raw TCP tunnel as a fallback when the HTTPS proxy is unavailable.
+[[proxies]]
+name = "dce-forecast-tcp"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 8010
+remotePort = 42023
+transport.useCompression = true

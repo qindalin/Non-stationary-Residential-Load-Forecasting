@@ -1,0 +1,51 @@
+client:
+  client_id: Lamb_office_Bertha
+  model_name: LSTM
+  server_url: http://127.0.0.1:8000
+  csv_path: data/Lamb_office_Bertha.csv
+  state_dir: state/local_Lamb_office_Bertha
+  initial_local_state_path: artifacts/lstm_bertha/Lamb_office_Bertha_local_lstm_state.pt
+  initial_global_state_path: artifacts/lstm_bertha/global_lstm_state.pt
+  target_col: value
+  aux_feature_col: airTemp
+  feature_columns:
+    - airTemp
+    - value
+  seq_len: 168
+  pred_len: 24
+  moving_avg: 25
+  split_mode: original_online_federated
+  train_ratio: null
+  batch_size: 32
+  train_epochs: 10
+  lr: 0.0001
+  online_lr: 0.001
+  hidden_dims: 64
+  unsynced_global_lr_scale: 1.0
+  model_buffer_size: 7
+  decay_rate: 0.0
+  update_stride: 24
+  snapshot_blend: 1.0
+  timeout_seconds: 10.0
+  device: cpu
+
+strategy:
+  sync_threshold: 0.80
+  downlink_drift_threshold: 0.60
+  downlink_utility_threshold: 0.01
+  beta_resource: 1.0
+  age_horizon: 12
+  recent_window: 6
+  resource_window: 12
+  eta_min_scale: 0.5
+  eta_max_scale: 2.0
+  eta_slope: 2.0
+  eta_bias: 0.5
+  mu_max: 0.05
+  mu_cloud_gain: 4.0
+  mu_drift_penalty: 2.5
+  drift_weight_loss: 0.40
+  drift_weight_disagreement: 0.30
+  drift_weight_volatility: 0.20
+  drift_weight_age: 0.10
+  epsilon: 1.0e-6

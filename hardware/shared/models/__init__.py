@@ -1,0 +1,1 @@
+"""Model registry placeholder for lightweight deployment models."""

@@ -1,0 +1,8 @@
+{
+  "avg_ensemble_mae": 0.36340612173080444,
+  "avg_ensemble_mse": 0.705204963684082,
+  "avg_ensemble_epe": 0.029105552260373296,
+  "avg_sync_count": 182.66666666666666,
+  "total_upload_mb": 268.9285583496094,
+  "total_download_mb": 44.90321731567383
+}

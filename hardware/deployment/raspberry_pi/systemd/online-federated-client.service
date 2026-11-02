@@ -1,0 +1,13 @@
+[Unit]
+Description=Online Federated Hardware Raspberry Pi Client
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/online_federated_hardware
+ExecStart=/opt/online_federated_hardware/.venv/bin/python -m client_app.main --config deployment/raspberry_pi/config.client.yaml
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+client:
+  client_id: pi-client-001
+  server_url: http://127.0.0.1:8000
+  csv_path: sample_data/pi_client_001.csv
+  state_dir: state/pi-client-001
+  pred_len: 24
+  timeout_seconds: 10.0
+
+strategy:
+  sync_threshold: 0.80
+  beta_resource: 1.0
+  age_horizon: 12
+  recent_window: 6
+  drift_weight_loss: 0.40
+  drift_weight_disagreement: 0.30
+  drift_weight_volatility: 0.20
+  drift_weight_age: 0.10

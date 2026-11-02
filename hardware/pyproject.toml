@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "online-federated-hardware"
+version = "0.1.0"
+description = "Hardware deployment scaffold for active cloud-edge co-adaptation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.111,<1",
+  "uvicorn>=0.30,<1",
+  "requests>=2.32,<3",
+  "PyYAML>=6,<7",
+  "pydantic>=2.7,<3",
+  "numpy>=1.26,<3",
+  "torch>=2.1,<3",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["shared*", "server_app*", "client_app*"]

@@ -1,0 +1,17 @@
+server:
+  host: 0.0.0.0
+  port: 8000
+  snapshot_dir: runtime/server/snapshots
+  sync_threshold: 0.80
+  sync_budget_clients: 4
+  server_lambda: 0.5
+  stale_gamma: 1.0
+  post_sync_broadcast: true
+  log_dir: logs/server
+
+model:
+  seq_len: 96
+  pred_len: 24
+  enc_in: 3
+  moving_avg: 25
+  individual: false

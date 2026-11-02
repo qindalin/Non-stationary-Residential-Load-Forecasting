@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# Experiment outputs (simulation)
+simulation/results/
+simulation/save/
+simulation/checkpoints/
+
+# Runtime state produced by hardware / pi runs
+hardware/runtime/
+hardware/logs/
+pi_client/runtime/
+pi_client/state/
+pi_client/.venv/
+
+# Secrets — never commit real FRP credentials
+frpc.toml
+*.key
+*.pem
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Notebooks / archives
+*.ipynb
+*.zip
+*.tar.gz
