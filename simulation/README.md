@@ -97,24 +97,3 @@ defaults.
   error-std scores) to the gate.
 - `--retrieval-policy latest|random` reproduces the ablation baselines of the
   memory-bank retrieval study.
-
-## Reproducing the paper's main results
-
-The paper's cross-backbone main table (18 Lamb clients × 548 online cycles) is
-reproducible with this code. See
-[`../docs/REPRODUCTION.md`](../docs/REPRODUCTION.md) for the verified
-comparison and the exact per-backbone commands, or run everything with:
-
-```bash
-bash scripts/run_paper_main_results.sh     # then:
-python scripts/compare_with_paper.py
-```
-
-Two gotchas before you start:
-
-1. **Always pass `--max-steps 548`** for full-horizon runs — the CLI default is
-   72 (a demo cap). If a run finishes in minutes with `avg_sync_count ≈ 24`,
-   you hit the default.
-2. **PatchTST needs the legacy 512-dim config** (`--d-model 512 --d-ff 2048
-   --n-heads 8 --e-layers 2`) to load the paper-era checkpoints; the current
-   code defaults to a smaller 128-dim variant.

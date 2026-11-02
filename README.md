@@ -52,8 +52,7 @@ multiple forecasting backbones (MLP, LSTM, CNN, DLinear, PatchTST).
 ![DCE-Forecast framework](docs/figures/framework.png)
 
 *DCE-Forecast system framework: drift-aware cloud-edge communication, robust
-cloud-edge co-evolution, and hierarchical prediction-space fusion
-([PDF version](docs/figures/framework.pdf)).*
+cloud-edge co-evolution, and hierarchical prediction-space fusion.*
 
 ## Repository layout
 
@@ -62,8 +61,6 @@ cloud-edge co-evolution, and hierarchical prediction-space fusion
 | [`simulation/`](simulation/README.md) | The core algorithm and the in-process simulation used for the paper experiments (single machine, one server + N clients). |
 | [`hardware/`](hardware/README.md)     | The deployment-oriented sibling: a FastAPI cloud server and a Raspberry-Pi-ready client agent with the same co-adaptation logic, configs and systemd templates. |
 | [`pi_client/`](pi_client/README.md)   | Standalone Raspberry Pi reproduction package: five-client full-flow launcher, CPU-only setup script and bundled LSTM checkpoints. |
-| [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md) | Equation-by-equation mapping from the paper to the code. |
-| [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) | How to re-run the paper's main experiments: exact commands and gotchas. |
 | [`docs/HARDWARE_DEPLOYMENT.md`](docs/HARDWARE_DEPLOYMENT.md) | Parameter mapping, communication flow and step-by-step hardware deployment guide. |
 
 This release focuses on the **core algorithm and the deployment runtime**.
@@ -156,10 +153,6 @@ average sync budget as DCE-Forecast; DoCoFL is reported under a
 matched-downlink configuration. Relative to the fixed-sync FedAvg reference,
 DCE-Forecast reduces the synchronization count from 548 to 182.7 and download
 traffic from 806.79 MB to 44.90 MB while improving MAE from 0.4164 to 0.3634.
-
-Experiment settings and one-shot scripts for re-running these tables:
-[`docs/REPRODUCTION.md`](docs/REPRODUCTION.md) and
-`simulation/scripts/run_paper_main_results.sh`.
 
 ## Quick start (hardware server + Pi client)
 
