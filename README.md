@@ -63,11 +63,6 @@ cloud-edge co-evolution, and hierarchical prediction-space fusion.*
 | [`pi_client/`](pi_client/README.md)   | Standalone Raspberry Pi reproduction package: five-client full-flow launcher, CPU-only setup script and bundled LSTM checkpoints. |
 | [`docs/HARDWARE_DEPLOYMENT.md`](docs/HARDWARE_DEPLOYMENT.md) | Parameter mapping, communication flow and step-by-step hardware deployment guide. |
 
-This release focuses on the **core algorithm and the deployment runtime**.
-Paper-figure-generation scripts, exhaustive ablation harnesses and large
-notebook artifacts from the original experimental workspace are intentionally
-not included.
-
 ## Requirements
 
 - Python ≥ 3.10
